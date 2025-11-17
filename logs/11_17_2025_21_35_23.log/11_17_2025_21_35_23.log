@@ -1,0 +1,4 @@
+[ 2025-11-17 21:35:25,046 ] 97 werkzeug - WARNING -  * Debugger is active!
+[ 2025-11-17 21:35:25,049 ] 97 werkzeug - INFO -  * Debugger PIN: 144-145-304
+[ 2025-11-17 21:35:26,285 ] 97 werkzeug - INFO -  * Detected change in 'C:\\Users\\humay_0to04r7\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\encodings\\unicode_escape.py', reloading
+[ 2025-11-17 21:35:26,293 ] 97 werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:35:26] "GET /predictdata HTTP/1.1" 200 -

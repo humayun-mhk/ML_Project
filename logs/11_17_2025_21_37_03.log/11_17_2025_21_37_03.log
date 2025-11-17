@@ -1,0 +1,18 @@
+[ 2025-11-17 21:37:04,825 ] 97 werkzeug - WARNING -  * Debugger is active!
+[ 2025-11-17 21:37:04,829 ] 97 werkzeug - INFO -  * Debugger PIN: 144-145-304
+[ 2025-11-17 21:37:06,028 ] 39 root - INFO - Input data for prediction: 
+  gender race_ethnicity parental_level_of_education         lunch test_preparation_course  reading_score  writing_score
+0   male        group B           bachelor's degree  free/reduced                    none           13.0           77.0
+[ 2025-11-17 21:37:06,227 ] 50 root - ERROR - Error during prediction: Error occured in python script name [F:\MLOPS\KRISH\ML_project_end\src\pipeline\predict_pipeline.py] line number [17] error message[Error occured in python script name [F:\MLOPS\KRISH\ML_project_end\src\utils.py] line number [58] error message[[Errno 2] No such file or directory: 'artifacts\\preprocessor.pkl']]
+[ 2025-11-17 21:37:06,233 ] 97 werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:37:06] "POST /predictdata HTTP/1.1" 200 -
+[ 2025-11-17 21:37:43,269 ] 39 root - INFO - Input data for prediction: 
+  gender race_ethnicity parental_level_of_education         lunch test_preparation_course  reading_score  writing_score
+0   male        group B          associate's degree  free/reduced                    none           78.0           78.0
+[ 2025-11-17 21:37:43,271 ] 50 root - ERROR - Error during prediction: Error occured in python script name [F:\MLOPS\KRISH\ML_project_end\src\pipeline\predict_pipeline.py] line number [17] error message[Error occured in python script name [F:\MLOPS\KRISH\ML_project_end\src\utils.py] line number [58] error message[[Errno 2] No such file or directory: 'artifacts\\preprocessor.pkl']]
+[ 2025-11-17 21:37:43,273 ] 97 werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:37:43] "POST /predictdata HTTP/1.1" 200 -
+[ 2025-11-17 21:38:37,276 ] 39 root - INFO - Input data for prediction: 
+  gender race_ethnicity parental_level_of_education     lunch test_preparation_course  reading_score  writing_score
+0   male        group B           bachelor's degree  standard                    none           13.0           23.0
+[ 2025-11-17 21:38:37,278 ] 50 root - ERROR - Error during prediction: Error occured in python script name [F:\MLOPS\KRISH\ML_project_end\src\pipeline\predict_pipeline.py] line number [17] error message[Error occured in python script name [F:\MLOPS\KRISH\ML_project_end\src\utils.py] line number [58] error message[[Errno 2] No such file or directory: 'artifacts\\preprocessor.pkl']]
+[ 2025-11-17 21:38:37,279 ] 97 werkzeug - INFO - 127.0.0.1 - - [17/Nov/2025 21:38:37] "POST /predictdata HTTP/1.1" 200 -
+[ 2025-11-17 21:41:40,579 ] 97 werkzeug - INFO -  * Detected change in 'C:\\Users\\humay_0to04r7\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\logging\\__init__.py', reloading
