@@ -1,0 +1,17 @@
+[ 2025-11-18 09:39:56,901 ] 97 werkzeug - WARNING -  * Debugger is active!
+[ 2025-11-18 09:39:56,905 ] 97 werkzeug - INFO -  * Debugger PIN: 102-768-083
+[ 2025-11-18 09:39:59,976 ] 39 root - INFO - Input data for prediction: 
+  gender race_ethnicity parental_level_of_education         lunch test_preparation_course  reading_score  writing_score
+0   male        group B           bachelor's degree  free/reduced                    none           23.0           78.0
+[ 2025-11-18 09:40:00,512 ] 44 root - INFO - Prediction result: 66.99650849373873
+[ 2025-11-18 09:40:00,519 ] 97 werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 09:40:00] "POST /predictdata HTTP/1.1" 200 -
+[ 2025-11-18 09:40:17,331 ] 39 root - INFO - Input data for prediction: 
+  gender race_ethnicity parental_level_of_education         lunch test_preparation_course  reading_score  writing_score
+0   male        group A          associate's degree  free/reduced               completed           56.0           78.0
+[ 2025-11-18 09:40:17,342 ] 44 root - INFO - Prediction result: 71.85318900242169
+[ 2025-11-18 09:40:17,342 ] 97 werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 09:40:17] "POST /predictdata HTTP/1.1" 200 -
+[ 2025-11-18 09:40:34,285 ] 39 root - INFO - Input data for prediction: 
+  gender race_ethnicity parental_level_of_education     lunch test_preparation_course  reading_score  writing_score
+0   male        group B                 high school  standard                    none           65.0           76.0
+[ 2025-11-18 09:40:34,304 ] 44 root - INFO - Prediction result: 80.61744850705819
+[ 2025-11-18 09:40:34,306 ] 97 werkzeug - INFO - 127.0.0.1 - - [18/Nov/2025 09:40:34] "POST /predictdata HTTP/1.1" 200 -
