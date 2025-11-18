@@ -1,5 +1,8 @@
-From python:3.8-slim-buster
+FROM python:3.10-slim
+
 WORKDIR /application
-COPY . /application 
-RUN apt update -y && apt insatll awscli -y
+COPY . /application
+
+RUN apt update -y && apt install -y awscli
+
 CMD ["python3", "application.py"]
