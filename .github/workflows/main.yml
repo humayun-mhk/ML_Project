@@ -12,6 +12,7 @@ permissions:
   contents: read
 
 jobs:
+
   integration:
     name: Continuous Integration
     runs-on: ubuntu-latest
@@ -46,10 +47,12 @@ jobs:
 
       - name: Build, tag, and push image to ECR
         run: |
-          docker build -t ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest .
-          docker push ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          docker build -t $IMAGE_URI .
+          docker push $IMAGE_URI
 
   Continuous-Deployment:
+    name: Continuous Deployment
     needs: build-and-push-ecr-image
     runs-on: self-hosted
     steps:
@@ -60,21 +63,29 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Stop and Remove Old Container
+      - name: Stop and Remove Old Container (if exists)
         run: |
-          docker ps -q --filter "name=mltest" | grep -q . && docker stop mltest && docker rm -fv mltest || true
+          if [ "$(docker ps -aq -f name=mltest)" ]; then
+            echo "Stopping old mltest container..."
+            docker stop mltest || true
+            docker rm -fv mltest || true
+          else
+            echo "No existing mltest container found."
+          fi
 
       - name: Pull latest image
         run: |
-          docker pull ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          docker pull $IMAGE_URI
 
-      - name: Run new container
+      - name: Run New Container
         run: |
+          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
           docker run -d -p 8080:8080 \
             --name mltest \
             --ipc=host \
-            ${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+            $IMAGE_URI
 
-      - name: Cleanup
+      - name: Cleanup Docker System
         run: |
           docker system prune -f
