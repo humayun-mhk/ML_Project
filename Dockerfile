@@ -1,8 +1,10 @@
 FROM python:3.10-slim
 
 WORKDIR /app
+
 COPY . /app
 
-RUN apt update -y && apt install -y awscli
+# Install AWS CLI via pip (safe and clean)
+RUN pip install --no-cache-dir awscli
 
-CMD ["python3", "app.py"]
+CMD ["python", "app.py"]
