@@ -26,7 +26,7 @@ jobs:
       - name: Run unit tests
         run: echo "Running unit tests"
 
-  build-and-push-ecr-image:
+  build_and_push_ecr_image:
     name: Continuous Delivery
     needs: integration
     runs-on: ubuntu-latest
@@ -39,21 +39,23 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: us-east-1
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: us-east-1
 
       - name: Build, tag, and push image to ECR
         run: |
-          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          IMAGE_URI=881571522542.dkr.ecr.us-east-1.amazonaws.com/studentperform:latest
           docker build -t $IMAGE_URI .
           docker push $IMAGE_URI
 
-  Continuous-Deployment:
+  continuous_deployment:
     name: Continuous Deployment
-    needs: build-and-push-ecr-image
+    needs: build_and_push_ecr_image
     runs-on: self-hosted
     steps:
       - name: Checkout
@@ -62,6 +64,8 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
+        with:
+          region: us-east-1
 
       - name: Stop and Remove Old Container (if exists)
         run: |
@@ -75,17 +79,16 @@ jobs:
 
       - name: Pull latest image
         run: |
-          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          IMAGE_URI=881571522542.dkr.ecr.us-east-1.amazonaws.com/studentperform:latest
           docker pull $IMAGE_URI
 
       - name: Run New Container
         run: |
-          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ secrets.ECR_REPOSITORY_NAME }}:latest
+          IMAGE_URI=881571522542.dkr.ecr.us-east-1.amazonaws.com/studentperform:latest
           docker run -d -p 8080:8080 \
             --name mltest \
             --ipc=host \
             $IMAGE_URI
 
       - name: Cleanup Docker System
-        run: |
-          docker system prune -f 
+        run: docker system prune -f
