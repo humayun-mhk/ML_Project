@@ -1,4 +1,4 @@
-name: workflow
+name: CI/CD Workflow
 
 on:
   push:
@@ -12,7 +12,6 @@ permissions:
   contents: read
 
 jobs:
-
   integration:
     name: Continuous Integration
     runs-on: ubuntu-latest
@@ -27,7 +26,7 @@ jobs:
         run: echo "Running unit tests"
 
   build_and_push_ecr_image:
-    name: Continuous Delivery
+    name: Build & Push Docker Image to ECR
     needs: integration
     runs-on: ubuntu-latest
     steps:
@@ -44,10 +43,8 @@ jobs:
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        with:
-          region: us-east-1
 
-      - name: Build, tag, and push image to ECR
+      - name: Build, tag, and push Docker image
         run: |
           IMAGE_URI=881571522542.dkr.ecr.us-east-1.amazonaws.com/studentperform:latest
           docker build -t $IMAGE_URI .
@@ -58,14 +55,19 @@ jobs:
     needs: build_and_push_ecr_image
     runs-on: self-hosted
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v3
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
-        with:
-          region: us-east-1
 
       - name: Stop and Remove Old Container (if exists)
         run: |
@@ -77,12 +79,12 @@ jobs:
             echo "No existing mltest container found."
           fi
 
-      - name: Pull latest image
+      - name: Pull latest Docker image
         run: |
           IMAGE_URI=881571522542.dkr.ecr.us-east-1.amazonaws.com/studentperform:latest
           docker pull $IMAGE_URI
 
-      - name: Run New Container
+      - name: Run New Docker Container
         run: |
           IMAGE_URI=881571522542.dkr.ecr.us-east-1.amazonaws.com/studentperform:latest
           docker run -d -p 8080:8080 \
@@ -90,5 +92,5 @@ jobs:
             --ipc=host \
             $IMAGE_URI
 
-      - name: Cleanup Docker System
+      - name: Cleanup Docker system
         run: docker system prune -f
